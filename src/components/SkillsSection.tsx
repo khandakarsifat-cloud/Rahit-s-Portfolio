@@ -1,11 +1,18 @@
 import { motion } from "framer-motion";
-import { Code, Brain, Users, Clock, Zap, Target, Sparkles } from "lucide-react";
+import { Code, Brain, Users, Clock, Zap, Target, Sparkles, Monitor } from "lucide-react";
 
 const programmingSkills = [
   { name: "C++", level: 85, color: "from-blue-500 to-cyan-400" },
   { name: "Java", level: 75, color: "from-orange-500 to-yellow-400" },
   { name: "C#", level: 70, color: "from-purple-500 to-pink-400" },
   { name: "Python", level: 55, color: "from-green-500 to-emerald-400" },
+  { name: "MySQL", level: 65, color: "from-sky-500 to-blue-400" },
+];
+
+const toolSkills = [
+  { name: "MS Word", level: 80, color: "from-blue-600 to-blue-400" },
+  { name: "MS PowerPoint", level: 75, color: "from-red-500 to-orange-400" },
+  { name: "MS Excel", level: 70, color: "from-green-600 to-green-400" },
 ];
 
 const softSkills = [
@@ -14,6 +21,31 @@ const softSkills = [
   { icon: Clock, name: "Time Management", desc: "Efficient planning" },
   { icon: Target, name: "Hardworking", desc: "Dedicated & focused" },
 ];
+
+const SkillBar = ({ skill, i }: { skill: { name: string; level: number; color: string }; i: number }) => (
+  <motion.div
+    key={skill.name}
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: i * 0.1 }}
+    className="glass rounded-xl p-4"
+  >
+    <div className="flex justify-between mb-3">
+      <span className="text-sm font-semibold text-foreground">{skill.name}</span>
+      <span className="text-sm font-medium gradient-text">{skill.level}%</span>
+    </div>
+    <div className="h-2.5 rounded-full bg-secondary/80 overflow-hidden">
+      <motion.div
+        className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
+        initial={{ width: 0 }}
+        whileInView={{ width: `${skill.level}%` }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: i * 0.15, ease: "easeOut" }}
+      />
+    </div>
+  </motion.div>
+);
 
 const SkillsSection = () => {
   return (
@@ -34,7 +66,8 @@ const SkillsSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-16">
+        <div className="grid md:grid-cols-3 gap-12">
+          {/* Programming Languages */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -44,36 +77,48 @@ const SkillsSection = () => {
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Code size={20} className="text-primary" />
               </div>
-              <h3 className="font-display text-xl font-semibold">Programming Languages</h3>
+              <h3 className="font-display text-xl font-semibold">Programming</h3>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-5">
               {programmingSkills.map((skill, i) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass rounded-xl p-4"
-                >
-                  <div className="flex justify-between mb-3">
-                    <span className="text-sm font-semibold text-foreground">{skill.name}</span>
-                    <span className="text-sm font-medium gradient-text">{skill.level}%</span>
-                  </div>
-                  <div className="h-2.5 rounded-full bg-secondary/80 overflow-hidden">
-                    <motion.div
-                      className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.2, delay: i * 0.15, ease: "easeOut" }}
-                    />
-                  </div>
-                </motion.div>
+                <SkillBar key={skill.name} skill={skill} i={i} />
               ))}
             </div>
           </motion.div>
 
+          {/* Tools & Software */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Monitor size={20} className="text-primary" />
+              </div>
+              <h3 className="font-display text-xl font-semibold">Tools & Software</h3>
+            </div>
+            <div className="space-y-5">
+              {toolSkills.map((skill, i) => (
+                <SkillBar key={skill.name} skill={skill} i={i} />
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="mt-6 glass rounded-xl p-5 flex items-center gap-4 gradient-border"
+            >
+              <Sparkles size={20} className="text-primary flex-shrink-0" />
+              <p className="text-sm text-muted-foreground">
+                Always eager to learn new technologies and expand my skill set.
+              </p>
+            </motion.div>
+          </motion.div>
+
+          {/* Soft Skills */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -104,19 +149,6 @@ const SkillsSection = () => {
                 </motion.div>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="mt-6 glass rounded-xl p-5 flex items-center gap-4 gradient-border"
-            >
-              <Sparkles size={20} className="text-primary flex-shrink-0" />
-              <p className="text-sm text-muted-foreground">
-                Always eager to learn new technologies and expand my skill set.
-              </p>
-            </motion.div>
           </motion.div>
         </div>
       </div>

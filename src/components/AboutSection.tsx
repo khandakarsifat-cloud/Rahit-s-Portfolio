@@ -1,22 +1,25 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Camera, Gamepad2, Users, Calendar, Award } from "lucide-react";
+import { GraduationCap, Camera, Gamepad2, Users, Calendar, Award, ExternalLink } from "lucide-react";
+import { useState } from "react";
 
 const timeline = [
-  { year: "2016", title: "PSC", school: "Bogura Cantonment Public School & College", result: "GPA 5.00" },
-  { year: "2019", title: "JSC", school: "Bogura Cantonment Public School & College", result: "GPA 5.00" },
-  { year: "2020", title: "SSC", school: "Dhaka Residential Model College", result: "GPA 4.61" },
-  { year: "2022", title: "HSC", school: "Dhaka Residential Model College", result: "GPA 5.00" },
+  { year: "2015", title: "PSC", school: "Bogura Cantonment Public School & College", result: "GPA 5.00" },
+  { year: "2018", title: "JSC", school: "Bogura Cantonment Public School & College", result: "GPA 5.00", cert: "/cert-jsc.jpg" },
+  { year: "2020", title: "SSC", school: "Dhaka Residential Model College", result: "GPA 4.61", cert: "/cert-ssc.jpg" },
+  { year: "2022", title: "HSC", school: "Dhaka Residential Model College", result: "GPA 5.00", cert: "/cert-hsc.jpg" },
   { year: "Present", title: "BSc in CSE", school: "American International University-Bangladesh", result: "8th Semester" },
 ];
 
 const stats = [
-  { value: "5.00", label: "Highest GPA" },
   { value: "8th", label: "Semester" },
+  { value: "CSE", label: "Department" },
   { value: "2+", label: "Club Roles" },
   { value: "3+", label: "Projects" },
 ];
 
 const AboutSection = () => {
+  const [selectedCert, setSelectedCert] = useState<string | null>(null);
+
   return (
     <section id="about" className="py-24 relative noise-bg">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
@@ -125,9 +128,20 @@ const AboutSection = () => {
                 >
                   <div className="absolute -left-[2.35rem] top-1 w-4 h-4 rounded-full bg-primary/20 border-2 border-primary group-hover:bg-primary transition-colors" />
                   <div className="glass rounded-xl p-4 hover:border-primary/30 transition-all">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Award size={14} className="text-primary" />
-                      <span className="text-xs font-semibold text-primary tracking-wider uppercase">{item.year}</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <Award size={14} className="text-primary" />
+                        <span className="text-xs font-semibold text-primary tracking-wider uppercase">{item.year}</span>
+                      </div>
+                      {item.cert && (
+                        <button
+                          onClick={() => setSelectedCert(item.cert!)}
+                          className="flex items-center gap-1 text-xs text-primary/70 hover:text-primary transition-colors"
+                        >
+                          <ExternalLink size={12} />
+                          <span>Certificate</span>
+                        </button>
+                      )}
                     </div>
                     <h4 className="font-display font-semibold text-foreground">{item.title}</h4>
                     <p className="text-sm text-muted-foreground">{item.school}</p>
@@ -139,6 +153,36 @@ const AboutSection = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Certificate Modal */}
+      {selectedCert && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setSelectedCert(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative max-w-2xl w-full max-h-[90vh] overflow-auto rounded-2xl border border-border/50 bg-background/90 p-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedCert(null)}
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+            >
+              ✕
+            </button>
+            <img
+              src={selectedCert}
+              alt="Academic Certificate"
+              className="w-full h-auto rounded-xl"
+            />
+          </motion.div>
+        </motion.div>
+      )}
     </section>
   );
 };

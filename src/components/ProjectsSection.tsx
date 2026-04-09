@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { TreePine, Wind, ExternalLink, ArrowUpRight } from "lucide-react";
+import { TreePine, Wind, ArrowUpRight, Calendar } from "lucide-react";
 
 const projects = [
   {
@@ -10,6 +10,8 @@ const projects = [
     tools: ["Java", "Database", "OOP"],
     gradient: "from-emerald-500/20 to-green-600/20",
     iconBg: "bg-emerald-500/10",
+    image: "/project-forest.jpg",
+    timeline: "Nov – Dec 2024",
   },
   {
     icon: Wind,
@@ -19,6 +21,8 @@ const projects = [
     tools: ["C++", "IoT", "Sensors"],
     gradient: "from-sky-500/20 to-blue-600/20",
     iconBg: "bg-sky-500/10",
+    image: "/project-envirosense.jpg",
+    timeline: "Jan – Feb 2025",
   },
 ];
 
@@ -52,13 +56,25 @@ const ProjectsSection = () => {
               whileHover={{ y: -6 }}
               className="group glass rounded-2xl overflow-hidden gradient-border"
             >
-              {/* Top gradient accent */}
-              <div className={`h-1.5 bg-gradient-to-r ${project.gradient}`} />
-              
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className={`w-14 h-14 rounded-xl ${project.iconBg} flex items-center justify-center`}>
-                    <project.icon size={26} className="text-primary" />
+              {/* Project Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                <div className="absolute bottom-3 left-4 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Calendar size={12} className="text-primary" />
+                  <span>{project.timeline}</span>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-xl ${project.iconBg} flex items-center justify-center`}>
+                    <project.icon size={22} className="text-primary" />
                   </div>
                   <motion.div
                     whileHover={{ scale: 1.1 }}
@@ -68,10 +84,10 @@ const ProjectsSection = () => {
                   </motion.div>
                 </div>
 
-                <h3 className="font-display text-xl font-semibold mb-3 text-foreground group-hover:gradient-text transition-all">
+                <h3 className="font-display text-xl font-semibold mb-2 text-foreground group-hover:gradient-text transition-all">
                   {project.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
                   {project.description}
                 </p>
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
 import profileImg from "@/assets/profile.jpg";
 import ParticleField from "./ParticleField";
 
@@ -63,6 +63,14 @@ const HeroSection = () => {
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass hover:border-primary/50 text-foreground transition-all"
               >
                 Contact Me
+              </a>
+              <a
+                href="/Al_Rahit_CV.docx"
+                download
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass hover:border-primary/50 text-foreground transition-all"
+              >
+                <Download size={18} />
+                Download CV
               </a>
             </div>
 
